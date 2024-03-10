@@ -11,6 +11,14 @@
 		AD18D8C42B9D4AA3002FD646 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD18D8C32B9D4AA3002FD646 /* ContentView.swift */; };
 		AD18D8C62B9D4AA4002FD646 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD18D8C52B9D4AA4002FD646 /* Assets.xcassets */; };
 		AD18D8C92B9D4AA4002FD646 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD18D8C82B9D4AA4002FD646 /* Preview Assets.xcassets */; };
+		AD18D8FB2B9D4CE0002FD646 /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD18D8FA2B9D4CE0002FD646 /* ButtonView.swift */; };
+		AD18D8FD2B9D4CE9002FD646 /* ItemInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD18D8FC2B9D4CE9002FD646 /* ItemInfoView.swift */; };
+		AD18D8FF2B9D4CF2002FD646 /* LoadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD18D8FE2B9D4CF2002FD646 /* LoadView.swift */; };
+		AD18D9022B9D4D14002FD646 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD18D9012B9D4D14002FD646 /* MainView.swift */; };
+		AD18D9042B9D4D26002FD646 /* SlideUpMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD18D9032B9D4D26002FD646 /* SlideUpMenuView.swift */; };
+		AD18D9062B9D4D36002FD646 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD18D9052B9D4D36002FD646 /* ProfileView.swift */; };
+		AD18D90A2B9D4E1C002FD646 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = AD18D9092B9D4E1C002FD646 /* FirebaseAuth */; };
+		AD18D90C2B9D56BE002FD646 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD18D90B2B9D56BE002FD646 /* MapViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +27,13 @@
 		AD18D8C32B9D4AA3002FD646 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		AD18D8C52B9D4AA4002FD646 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AD18D8C82B9D4AA4002FD646 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		AD18D8FA2B9D4CE0002FD646 /* ButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
+		AD18D8FC2B9D4CE9002FD646 /* ItemInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemInfoView.swift; sourceTree = "<group>"; };
+		AD18D8FE2B9D4CF2002FD646 /* LoadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadView.swift; sourceTree = "<group>"; };
+		AD18D9012B9D4D14002FD646 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		AD18D9032B9D4D26002FD646 /* SlideUpMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideUpMenuView.swift; sourceTree = "<group>"; };
+		AD18D9052B9D4D36002FD646 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		AD18D90B2B9D56BE002FD646 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -26,6 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD18D90A2B9D4E1C002FD646 /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -37,6 +53,7 @@
 			children = (
 				AD18D8C02B9D4AA3002FD646 /* AnzenNavi */,
 				AD18D8BF2B9D4AA3002FD646 /* Products */,
+				AD18D9082B9D4E1C002FD646 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -52,8 +69,10 @@
 			isa = PBXGroup;
 			children = (
 				AD18D8C12B9D4AA3002FD646 /* AnzenNaviApp.swift */,
-				AD18D8C32B9D4AA3002FD646 /* ContentView.swift */,
 				AD18D8C52B9D4AA4002FD646 /* Assets.xcassets */,
+				AD18D8F92B9D4C8F002FD646 /* Models */,
+				AD18D8F82B9D4C85002FD646 /* Firebase */,
+				AD18D8F72B9D4C77002FD646 /* Views */,
 				AD18D8C72B9D4AA4002FD646 /* Preview Content */,
 			);
 			path = AnzenNavi;
@@ -65,6 +84,42 @@
 				AD18D8C82B9D4AA4002FD646 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		AD18D8F72B9D4C77002FD646 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				AD18D9012B9D4D14002FD646 /* MainView.swift */,
+				AD18D8FE2B9D4CF2002FD646 /* LoadView.swift */,
+				AD18D8C32B9D4AA3002FD646 /* ContentView.swift */,
+				AD18D9032B9D4D26002FD646 /* SlideUpMenuView.swift */,
+				AD18D8FA2B9D4CE0002FD646 /* ButtonView.swift */,
+				AD18D8FC2B9D4CE9002FD646 /* ItemInfoView.swift */,
+				AD18D9052B9D4D36002FD646 /* ProfileView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		AD18D8F82B9D4C85002FD646 /* Firebase */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Firebase;
+			sourceTree = "<group>";
+		};
+		AD18D8F92B9D4C8F002FD646 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				AD18D90B2B9D56BE002FD646 /* MapViewModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		AD18D9082B9D4E1C002FD646 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -83,6 +138,9 @@
 			dependencies = (
 			);
 			name = AnzenNavi;
+			packageProductDependencies = (
+				AD18D9092B9D4E1C002FD646 /* FirebaseAuth */,
+			);
 			productName = AnzenNavi;
 			productReference = AD18D8BE2B9D4AA3002FD646 /* AnzenNavi.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +169,9 @@
 				Base,
 			);
 			mainGroup = AD18D8B52B9D4AA3002FD646;
+			packageReferences = (
+				AD18D9072B9D4E0F002FD646 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = AD18D8BF2B9D4AA3002FD646 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -137,8 +198,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD18D9062B9D4D36002FD646 /* ProfileView.swift in Sources */,
+				AD18D8FF2B9D4CF2002FD646 /* LoadView.swift in Sources */,
+				AD18D9022B9D4D14002FD646 /* MainView.swift in Sources */,
 				AD18D8C42B9D4AA3002FD646 /* ContentView.swift in Sources */,
+				AD18D9042B9D4D26002FD646 /* SlideUpMenuView.swift in Sources */,
 				AD18D8C22B9D4AA3002FD646 /* AnzenNaviApp.swift in Sources */,
+				AD18D8FB2B9D4CE0002FD646 /* ButtonView.swift in Sources */,
+				AD18D8FD2B9D4CE9002FD646 /* ItemInfoView.swift in Sources */,
+				AD18D90C2B9D56BE002FD646 /* MapViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -275,6 +343,7 @@
 				DEVELOPMENT_TEAM = HF9X4855BF;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "現在地を取得するために利用します";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -304,6 +373,7 @@
 				DEVELOPMENT_TEAM = HF9X4855BF;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "現在地を取得するために利用します";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -344,6 +414,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AD18D9072B9D4E0F002FD646 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.22.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AD18D9092B9D4E1C002FD646 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AD18D9072B9D4E0F002FD646 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = AD18D8B62B9D4AA3002FD646 /* Project object */;
 }
