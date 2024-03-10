@@ -36,6 +36,7 @@
 		AD18D9052B9D4D36002FD646 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		AD18D90B2B9D56BE002FD646 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		ADC8B2242B9D975D00EA0A11 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		ADC8B2262B9DB35100EA0A11 /* AnzenNaviDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AnzenNaviDebug.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +72,7 @@
 		AD18D8C02B9D4AA3002FD646 /* AnzenNavi */ = {
 			isa = PBXGroup;
 			children = (
+				ADC8B2262B9DB35100EA0A11 /* AnzenNaviDebug.entitlements */,
 				AD18D8C12B9D4AA3002FD646 /* AnzenNaviApp.swift */,
 				AD18D8C52B9D4AA4002FD646 /* Assets.xcassets */,
 				AD18D8F92B9D4C8F002FD646 /* Models */,
@@ -341,6 +343,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = AnzenNavi/AnzenNaviDebug.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"AnzenNavi/Preview Content\"";
