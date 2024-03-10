@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AD0EA0422B9D5D55009A4128 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AD0EA0412B9D5D54009A4128 /* GoogleService-Info.plist */; };
 		AD18D8C22B9D4AA3002FD646 /* AnzenNaviApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD18D8C12B9D4AA3002FD646 /* AnzenNaviApp.swift */; };
 		AD18D8C42B9D4AA3002FD646 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD18D8C32B9D4AA3002FD646 /* ContentView.swift */; };
 		AD18D8C62B9D4AA4002FD646 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD18D8C52B9D4AA4002FD646 /* Assets.xcassets */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AD0EA0412B9D5D54009A4128 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		AD18D8BE2B9D4AA3002FD646 /* AnzenNavi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnzenNavi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD18D8C12B9D4AA3002FD646 /* AnzenNaviApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnzenNaviApp.swift; sourceTree = "<group>"; };
 		AD18D8C32B9D4AA3002FD646 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -51,6 +53,7 @@
 		AD18D8B52B9D4AA3002FD646 = {
 			isa = PBXGroup;
 			children = (
+				AD0EA0412B9D5D54009A4128 /* GoogleService-Info.plist */,
 				AD18D8C02B9D4AA3002FD646 /* AnzenNavi */,
 				AD18D8BF2B9D4AA3002FD646 /* Products */,
 				AD18D9082B9D4E1C002FD646 /* Frameworks */,
@@ -188,6 +191,7 @@
 			files = (
 				AD18D8C92B9D4AA4002FD646 /* Preview Assets.xcassets in Resources */,
 				AD18D8C62B9D4AA4002FD646 /* Assets.xcassets in Resources */,
+				AD0EA0422B9D5D55009A4128 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

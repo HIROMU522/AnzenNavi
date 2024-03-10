@@ -82,7 +82,7 @@ struct MainView: View {
                 Color(red: 0.96, green: 0.86, blue: 0.52).edgesIgnoringSafeArea(.all)
                 VStack {
                     Image("AppName").resizable().aspectRatio(contentMode: .fill).frame(width: 100, height: 100)
-                    Image("logo").resizable().aspectRatio(contentMode: .fill).frame(width: 500, height: 500)
+                    Image("logo").resizable().aspectRatio(contentMode: .fill).frame(width: 300, height: 300)
                     SignInWithAppleButton(isAuthenticated: $isAuthenticated)
                         .frame(width: 280, height: 45)
                         .padding()
