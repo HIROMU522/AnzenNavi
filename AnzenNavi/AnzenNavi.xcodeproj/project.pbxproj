@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		AD7547BC2C9E9786002AB6C7 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = AD7547BB2C9E9786002AB6C7 /* FirebaseAuth */; };
+		AD7547BE2C9E9793002AB6C7 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = AD7547BD2C9E9793002AB6C7 /* FirebaseFirestore */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		AD7547812C9D5EA3002AB6C7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +57,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD7547BC2C9E9786002AB6C7 /* FirebaseAuth in Frameworks */,
+				AD7547BE2C9E9793002AB6C7 /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +85,7 @@
 				AD7547722C9D5EA1002AB6C7 /* AnzenNavi */,
 				AD7547832C9D5EA3002AB6C7 /* AnzenNaviTests */,
 				AD75478D2C9D5EA3002AB6C7 /* AnzenNaviUITests */,
+				AD7547BA2C9E9786002AB6C7 /* Frameworks */,
 				AD7547712C9D5EA1002AB6C7 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -90,6 +98,13 @@
 				AD75478A2C9D5EA3002AB6C7 /* AnzenNaviUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		AD7547BA2C9E9786002AB6C7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -112,6 +127,8 @@
 			);
 			name = AnzenNavi;
 			packageProductDependencies = (
+				AD7547BB2C9E9786002AB6C7 /* FirebaseAuth */,
+				AD7547BD2C9E9793002AB6C7 /* FirebaseFirestore */,
 			);
 			productName = AnzenNavi;
 			productReference = AD7547702C9D5EA1002AB6C7 /* AnzenNavi.app */;
@@ -175,6 +192,7 @@
 				TargetAttributes = {
 					AD75476F2C9D5EA1002AB6C7 = {
 						CreatedOnToolsVersion = 16.0;
+						LastSwiftMigration = 1600;
 					};
 					AD75477F2C9D5EA3002AB6C7 = {
 						CreatedOnToolsVersion = 16.0;
@@ -195,6 +213,9 @@
 			);
 			mainGroup = AD7547672C9D5EA1002AB6C7;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				AD7547B72C9E9422002AB6C7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = AD7547712C9D5EA1002AB6C7 /* Products */;
 			projectDirPath = "";
@@ -393,17 +414,21 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"AnzenNavi/Preview Content\"";
 				DEVELOPMENT_TEAM = HF9X4855BF;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = AnzenNavi;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -412,6 +437,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = hiromureve1522.AnzenNavi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -422,17 +448,21 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"AnzenNavi/Preview Content\"";
 				DEVELOPMENT_TEAM = HF9X4855BF;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = AnzenNavi;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -454,7 +484,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = HF9X4855BF;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = hiromureve1522.AnzenNaviTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -473,7 +503,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = HF9X4855BF;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = hiromureve1522.AnzenNaviTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -491,6 +521,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = HF9X4855BF;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = hiromureve1522.AnzenNaviUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -508,6 +539,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = HF9X4855BF;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = hiromureve1522.AnzenNaviUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -558,6 +590,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AD7547B72C9E9422002AB6C7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.2.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AD7547BB2C9E9786002AB6C7 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AD7547B72C9E9422002AB6C7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		AD7547BD2C9E9793002AB6C7 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AD7547B72C9E9422002AB6C7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = AD7547682C9D5EA1002AB6C7 /* Project object */;
 }
