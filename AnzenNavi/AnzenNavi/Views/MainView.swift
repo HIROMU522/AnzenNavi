@@ -1,16 +1,25 @@
 import SwiftUI
-import MapKit
+import UIKit
+
 
 struct MainView: View {
     var body: some View {
-        // MapKitを使用して地図を表示
-        Map()
+        ZStack {
+            MapView()
+                .edgesIgnoringSafeArea(.all)  
+            FloatingPanelWrapper()
+                .edgesIgnoringSafeArea(.all)
+        }
     }
 }
 
-struct MainView_Previews: PreviewProvider {
-    static var previews: some View {
-        MainView()
+// FloatingPanelをSwiftUIでラップする
+struct FloatingPanelWrapper: UIViewControllerRepresentable {
+    func makeUIViewController(context: Context) -> FloatingPanelController {
+        return FloatingPanelController()
+    }
+
+    func updateUIViewController(_ uiViewController: FloatingPanelController, context: Context) {
     }
 }
 

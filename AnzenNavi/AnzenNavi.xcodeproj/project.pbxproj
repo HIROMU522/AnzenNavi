@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AD0007532C9FFA24004D3688 /* FloatingPanel in Frameworks */ = {isa = PBXBuildFile; productRef = AD0007522C9FFA24004D3688 /* FloatingPanel */; };
 		AD7547BC2C9E9786002AB6C7 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = AD7547BB2C9E9786002AB6C7 /* FirebaseAuth */; };
 		AD7547BE2C9E9793002AB6C7 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = AD7547BD2C9E9793002AB6C7 /* FirebaseFirestore */; };
 /* End PBXBuildFile section */
@@ -57,6 +58,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD0007532C9FFA24004D3688 /* FloatingPanel in Frameworks */,
 				AD7547BC2C9E9786002AB6C7 /* FirebaseAuth in Frameworks */,
 				AD7547BE2C9E9793002AB6C7 /* FirebaseFirestore in Frameworks */,
 			);
@@ -129,6 +131,7 @@
 			packageProductDependencies = (
 				AD7547BB2C9E9786002AB6C7 /* FirebaseAuth */,
 				AD7547BD2C9E9793002AB6C7 /* FirebaseFirestore */,
+				AD0007522C9FFA24004D3688 /* FloatingPanel */,
 			);
 			productName = AnzenNavi;
 			productReference = AD7547702C9D5EA1002AB6C7 /* AnzenNavi.app */;
@@ -215,6 +218,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				AD7547B72C9E9422002AB6C7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				AD0007512C9FF9CD004D3688 /* XCRemoteSwiftPackageReference "FloatingPanel" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = AD7547712C9D5EA1002AB6C7 /* Products */;
@@ -592,6 +596,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		AD0007512C9FF9CD004D3688 /* XCRemoteSwiftPackageReference "FloatingPanel" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scenee/FloatingPanel";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.8.6;
+			};
+		};
 		AD7547B72C9E9422002AB6C7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
@@ -603,6 +615,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		AD0007522C9FFA24004D3688 /* FloatingPanel */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AD0007512C9FF9CD004D3688 /* XCRemoteSwiftPackageReference "FloatingPanel" */;
+			productName = FloatingPanel;
+		};
 		AD7547BB2C9E9786002AB6C7 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = AD7547B72C9E9422002AB6C7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
