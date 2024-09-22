@@ -14,26 +14,22 @@ struct SplashView: View {
 
     var body: some View {
         if isActive {
-            // メイン画面に遷移する
-            MainView()  // メイン画面に切り替えるView
+            MainView()
         } else {
-            // スプラッシュ画面
             VStack {
-                Image("logo")  // Assets.xcassetsに追加したロゴを表示
+                Image("logo")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: 200, height: 200)  // ロゴのサイズを調整
+                    .frame(width: 200, height: 200)
                     .padding()
             }
             .scaleEffect(size)
             .opacity(opacity)
             .onAppear {
-                // アニメーション
                 withAnimation(.easeIn(duration: 1.2)) {
                     self.size = 1.0
                     self.opacity = 1.0
                 }
-                // 2秒後にメイン画面に遷移
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                     self.isActive = true
                 }
