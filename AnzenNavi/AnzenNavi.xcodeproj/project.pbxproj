@@ -35,9 +35,30 @@
 		AD75478A2C9D5EA3002AB6C7 /* AnzenNaviUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AnzenNaviUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		ADB3F80B2CB6388200594C65 /* Exceptions for "AnzenNavi" folder in "AnzenNaviTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"Resources/GoogleService-Info.plist",
+			);
+			target = AD75477F2C9D5EA3002AB6C7 /* AnzenNaviTests */;
+		};
+		ADB3F80C2CB6388200594C65 /* Exceptions for "AnzenNavi" folder in "AnzenNaviUITests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"Resources/GoogleService-Info.plist",
+			);
+			target = AD7547892C9D5EA3002AB6C7 /* AnzenNaviUITests */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		AD7547722C9D5EA1002AB6C7 /* AnzenNavi */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				ADB3F80B2CB6388200594C65 /* Exceptions for "AnzenNavi" folder in "AnzenNaviTests" target */,
+				ADB3F80C2CB6388200594C65 /* Exceptions for "AnzenNavi" folder in "AnzenNaviUITests" target */,
+			);
 			path = AnzenNavi;
 			sourceTree = "<group>";
 		};
