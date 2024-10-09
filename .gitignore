@@ -8,6 +8,12 @@ xcuserdata/
 ## Obj-C/Swift specific
 *.hmap
 
+# macOS システムファイル
+.DS_Store
+
+# Firebase 設定ファイル
+GoogleService-Info.plist
+
 ## App packaging
 *.ipa
 *.dSYM.zip
