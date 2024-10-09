@@ -50,26 +50,29 @@
 			);
 			target = AD7547892C9D5EA3002AB6C7 /* AnzenNaviUITests */;
 		};
+		ADB3F8192CB67D1B00594C65 /* Exceptions for "AnzenNavi" folder in "AnzenNavi" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = AD75476F2C9D5EA1002AB6C7 /* AnzenNavi */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		AD7547722C9D5EA1002AB6C7 /* AnzenNavi */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
+				ADB3F8192CB67D1B00594C65 /* Exceptions for "AnzenNavi" folder in "AnzenNavi" target */,
 				ADB3F80B2CB6388200594C65 /* Exceptions for "AnzenNavi" folder in "AnzenNaviTests" target */,
 				ADB3F80C2CB6388200594C65 /* Exceptions for "AnzenNavi" folder in "AnzenNaviUITests" target */,
 			);
 			path = AnzenNavi;
 			sourceTree = "<group>";
 		};
-		AD7547832C9D5EA3002AB6C7 /* AnzenNaviTests */ = {
+		ADB3F81D2CB694D700594C65 /* Tests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = AnzenNaviTests;
-			sourceTree = "<group>";
-		};
-		AD75478D2C9D5EA3002AB6C7 /* AnzenNaviUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = AnzenNaviUITests;
+			path = Tests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -105,9 +108,8 @@
 		AD7547672C9D5EA1002AB6C7 = {
 			isa = PBXGroup;
 			children = (
+				ADB3F81D2CB694D700594C65 /* Tests */,
 				AD7547722C9D5EA1002AB6C7 /* AnzenNavi */,
-				AD7547832C9D5EA3002AB6C7 /* AnzenNaviTests */,
-				AD75478D2C9D5EA3002AB6C7 /* AnzenNaviUITests */,
 				AD7547BA2C9E9786002AB6C7 /* Frameworks */,
 				AD7547712C9D5EA1002AB6C7 /* Products */,
 			);
@@ -147,6 +149,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				AD7547722C9D5EA1002AB6C7 /* AnzenNavi */,
+				ADB3F81D2CB694D700594C65 /* Tests */,
 			);
 			name = AnzenNavi;
 			packageProductDependencies = (
@@ -171,9 +174,6 @@
 			dependencies = (
 				AD7547822C9D5EA3002AB6C7 /* PBXTargetDependency */,
 			);
-			fileSystemSynchronizedGroups = (
-				AD7547832C9D5EA3002AB6C7 /* AnzenNaviTests */,
-			);
 			name = AnzenNaviTests;
 			packageProductDependencies = (
 			);
@@ -193,9 +193,6 @@
 			);
 			dependencies = (
 				AD75478C2C9D5EA3002AB6C7 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				AD75478D2C9D5EA3002AB6C7 /* AnzenNaviUITests */,
 			);
 			name = AnzenNaviUITests;
 			packageProductDependencies = (
@@ -440,12 +437,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = AnzenNavi/AnzenNavi.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = HF9X4855BF;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AnzenNavi/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = AnzenNavi;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -477,12 +476,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = AnzenNavi/AnzenNavi.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = HF9X4855BF;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AnzenNavi/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = AnzenNavi;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;

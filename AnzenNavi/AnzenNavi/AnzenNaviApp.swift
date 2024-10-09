@@ -4,28 +4,23 @@
 //
 //  Created by 田中大夢 on 2024/09/21.
 //
+//
+
 
 import SwiftUI
 import Firebase
 
-class AppDelegate:NSObject,UIApplicationDelegate{
-
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-        FirebaseApp.configure()
-        return true
-    }
-}
- 
 @main
 struct AnzenNaviApp: App {
- 
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
- 
+    // AppDelegate を SwiftUI アプリに統合
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+
     var body: some Scene {
         WindowGroup {
-            SplashView()
+            SplashView() // 初めに必ず SplashView を表示
         }
     }
-
 }
- 
+
+
+
