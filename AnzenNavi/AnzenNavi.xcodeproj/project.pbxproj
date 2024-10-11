@@ -10,6 +10,7 @@
 		AD0007532C9FFA24004D3688 /* FloatingPanel in Frameworks */ = {isa = PBXBuildFile; productRef = AD0007522C9FFA24004D3688 /* FloatingPanel */; };
 		AD7547BC2C9E9786002AB6C7 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = AD7547BB2C9E9786002AB6C7 /* FirebaseAuth */; };
 		AD7547BE2C9E9793002AB6C7 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = AD7547BD2C9E9793002AB6C7 /* FirebaseFirestore */; };
+		ADB3F82E2CB7421600594C65 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = ADB3F82D2CB7421600594C65 /* FirebaseMessaging */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,6 +40,7 @@
 		ADB3F80B2CB6388200594C65 /* Exceptions for "AnzenNavi" folder in "AnzenNaviTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Resources/CountryNumbers.json,
 				"Resources/GoogleService-Info.plist",
 			);
 			target = AD75477F2C9D5EA3002AB6C7 /* AnzenNaviTests */;
@@ -46,6 +48,7 @@
 		ADB3F80C2CB6388200594C65 /* Exceptions for "AnzenNavi" folder in "AnzenNaviUITests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Resources/CountryNumbers.json,
 				"Resources/GoogleService-Info.plist",
 			);
 			target = AD7547892C9D5EA3002AB6C7 /* AnzenNaviUITests */;
@@ -82,6 +85,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ADB3F82E2CB7421600594C65 /* FirebaseMessaging in Frameworks */,
 				AD0007532C9FFA24004D3688 /* FloatingPanel in Frameworks */,
 				AD7547BC2C9E9786002AB6C7 /* FirebaseAuth in Frameworks */,
 				AD7547BE2C9E9793002AB6C7 /* FirebaseFirestore in Frameworks */,
@@ -156,6 +160,7 @@
 				AD7547BB2C9E9786002AB6C7 /* FirebaseAuth */,
 				AD7547BD2C9E9793002AB6C7 /* FirebaseFirestore */,
 				AD0007522C9FFA24004D3688 /* FloatingPanel */,
+				ADB3F82D2CB7421600594C65 /* FirebaseMessaging */,
 			);
 			productName = AnzenNavi;
 			productReference = AD7547702C9D5EA1002AB6C7 /* AnzenNavi.app */;
@@ -449,7 +454,7 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -488,7 +493,7 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -657,6 +662,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = AD7547B72C9E9422002AB6C7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestore;
+		};
+		ADB3F82D2CB7421600594C65 /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AD7547B72C9E9422002AB6C7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
