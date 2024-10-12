@@ -21,13 +21,13 @@ struct PhoneNumberLoginView: View {
     @State private var showAlert = false
     @State private var isLoading = false
     @State private var navigationPath = NavigationPath()
-
+    
     @Environment(\.dismiss) private var dismiss
     @Environment(\.colorScheme) private var scheme
     @FocusState private var keyIsFocused: Bool
-
+    
     let countries: [CPData] = Bundle.main.decode("CountryNumbers.json")
-
+    
     var body: some View {
         NavigationStack(path: $navigationPath) {
             VStack {
@@ -36,6 +36,11 @@ struct PhoneNumberLoginView: View {
                 otherSignInMethodsLink
                 Spacer()
                 sendButton
+            }
+            .overlay {
+                if isLoading {
+                    LoadingScreen()
+                }
             }
             .onAppear { keyIsFocused = true }
             .sheet(isPresented: $presentSheet) { countrySelectionSheet }
@@ -46,16 +51,16 @@ struct PhoneNumberLoginView: View {
         }
         .ignoresSafeArea(.keyboard)
     }
-
+    
     // MARK: - View Components
-
+    
     private var headerText: some View {
         Text("Confirm country code and enter phone number")
             .multilineTextAlignment(.center)
             .font(.title).bold()
             .padding(.top, 20)
     }
-
+    
     private var phoneNumberInputSection: some View {
         HStack{
             countryButton
@@ -64,8 +69,7 @@ struct PhoneNumberLoginView: View {
         .padding(.vertical, 20)
         .padding(.horizontal)
     }
-
-
+    
     private var countryButton: some View {
         Button {
             presentSheet = true
@@ -77,9 +81,8 @@ struct PhoneNumberLoginView: View {
                 .background(backgroundColor, in: RoundedRectangle(cornerRadius: 10, style: .continuous))
                 .foregroundColor(foregroundColor)
         }
-        
     }
-
+    
     private var phoneNumberTextField: some View {
         TextField("", text: $mobPhoneNumber)
             .placeholder(when: mobPhoneNumber.isEmpty) {
@@ -95,31 +98,34 @@ struct PhoneNumberLoginView: View {
             .frame(minWidth: 80, minHeight: 47)
             .background(backgroundColor, in: RoundedRectangle(cornerRadius: 10, style: .continuous))
     }
-
+    
     private var sendButton: some View {
-        Button(action: sendVerificationCode) {
-            Text("Next")
-                .font(.system(size: 20))
-                .foregroundColor(.white)
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 12)
-        }
-        .background(Color.blue)
-        .edgesIgnoringSafeArea(.horizontal)
+        Button(action: {sendVerificationCode()
+            keyIsFocused = false }) {
+                Text("Next")
+                    .font(.system(.body, design: .rounded))
+                    .fontWeight(.heavy)
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 12)
+            }
+            .background(Color.green)
+            .disabled(mobPhoneNumber.count < 1)
+            .opacity(mobPhoneNumber.count < 1 ? 0.6 : 1)
+            .edgesIgnoringSafeArea(.horizontal)
     }
-
-
+    
     private var otherSignInMethodsLink: some View {
         HStack {
             Text("Sign in with other ")
                 .foregroundColor(.gray)
             Text("methods")
-                .foregroundColor(.blue)
+                .foregroundColor(.green)
                 .onTapGesture { dismiss() }
         }
         .padding(.top, 10)
     }
-
+    
     private var countrySelectionSheet: some View {
         NavigationView {
             List(filteredCountries) { country in
@@ -140,25 +146,41 @@ struct PhoneNumberLoginView: View {
         }
         .presentationDetents([.medium, .large])
     }
-
+    
     private var errorAlert: Alert {
         Alert(title: Text("Error"), message: Text(errorMessage), dismissButton: .default(Text("OK")))
     }
-
+    
+    // MARK: - Helper Views
+    
+    @ViewBuilder
+    private func LoadingScreen() -> some View {
+        ZStack {
+            Rectangle()
+                .fill(.ultraThinMaterial)
+                .ignoresSafeArea()
+            
+            ProgressView()
+                .frame(width: 45, height: 45)
+                .background(.background, in: RoundedRectangle(cornerRadius: 5))
+        }
+    }
+    
     // MARK: - Helper Methods
-
+    
     private var filteredCountries: [CPData] {
         searchCountry.isEmpty ? countries : countries.filter { $0.name.localizedCaseInsensitiveContains(searchCountry) }
     }
-
+    
     private var foregroundColor: Color {
         scheme == .dark ? .white : .black
     }
-
+    
     private var backgroundColor: Color {
         scheme == .dark ? Color(.systemGray5) : Color(.systemGray6)
     }
-
+    
+    
     private func sendVerificationCode() {
         isLoading = true
         let fullPhoneNumber = "\(countryCode) \(mobPhoneNumber)"
@@ -173,7 +195,7 @@ struct PhoneNumberLoginView: View {
             }
         }
     }
-
+    
     private func selectCountry(_ country: CPData) {
         countryFlag = country.flag
         countryCode = country.dial_code
@@ -181,7 +203,7 @@ struct PhoneNumberLoginView: View {
         presentSheet = false
         searchCountry = ""
     }
-
+    
     private func applyPatternOnNumbers(_ stringvar: inout String, pattern: String, replacementCharacter: Character) {
         var pureNumber = stringvar.replacingOccurrences(of: "[^0-9]", with: "", options: .regularExpression)
         for index in 0..<pattern.count {
@@ -206,3 +228,4 @@ struct VerificationInfo: Hashable {
 #Preview{
     PhoneNumberLoginView()
 }
+

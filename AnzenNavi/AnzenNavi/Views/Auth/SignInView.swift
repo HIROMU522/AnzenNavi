@@ -75,7 +75,7 @@ struct SignInView: View {
     }
     
     private var headerText: some View {
-        Text("Sign in to start your \nlearning experiences")
+        Text("Sign in to start  \npreparing for evacuations")
             .font(.title.bold())
     }
     
