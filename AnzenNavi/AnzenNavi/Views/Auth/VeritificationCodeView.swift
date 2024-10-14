@@ -9,6 +9,7 @@ import SwiftUI
 import FirebaseAuth
 import Combine
 
+
 struct VerificationCodeView: View {
     @State var verificationID: String
     @State var phoneNumber: String
@@ -17,12 +18,14 @@ struct VerificationCodeView: View {
     @State private var showAlert: Bool = false
     @State private var isLoading = false
     @AppStorage("log_Status") private var logStatus: Bool = false
-    @FocusState private var isFocused: Bool  // `@FocusState` の変更
+    @FocusState private var isFocused: Bool
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dismiss) private var dismiss 
 
     var body: some View {
         VStack {
+            BackButton()
             headerText
             instructionText
             otpInputBoxes
@@ -35,12 +38,11 @@ struct VerificationCodeView: View {
                 LoadingScreen()
             }
         }
+        .onAppear { isFocused = true }
         .alert(isPresented: $showAlert) {
             Alert(title: Text("Error"), message: Text(errorMessage), dismissButton: .default(Text("OK")))
         }
-        .onAppear {
-            isFocused = true  // 画面が表示された際にフォーカスを設定してキーボードを表示
-        }
+        .navigationBarBackButtonHidden(true)
     }
 
     // MARK: - View Components
@@ -71,12 +73,12 @@ struct VerificationCodeView: View {
                 .frame(width: 1, height: 1)
                 .opacity(0.001)
                 .blendMode(.screen)
-                .focused($isFocused)  // フォーカスの設定
+                .focused($isFocused)
         })
         .contentShape(Rectangle())
         .padding(.vertical, 30)
         .onTapGesture {
-            isFocused = true  // タップでキーボードを表示
+            isFocused = true
         }
     }
 
@@ -96,7 +98,7 @@ struct VerificationCodeView: View {
         }
         .frame(width: 45, height: 45)
         .background {
-            let isFocusedBox = (otpText.count == index) // Focus on the current input position
+            let isFocusedBox = (otpText.count == index)
             RoundedRectangle(cornerRadius: 6, style: .continuous)
                 .stroke(isFocusedBox ? .black : .gray, lineWidth: isFocusedBox ? 1 : 0.5)
                 .animation(.easeInOut(duration: 0.2), value: isFocusedBox)
@@ -110,7 +112,7 @@ struct VerificationCodeView: View {
 
     private var resendButton: some View {
         Button(action: {
-            isFocused = false  // ボタンを押したときにキーボードを閉じる
+            isFocused = false
             resendCode()
         }) {
             Text("Resend a new code.")
@@ -121,7 +123,7 @@ struct VerificationCodeView: View {
 
     private var verifyButton: some View {
         Button(action: {
-            isFocused = false  // ボタンを押したときにキーボードを閉じる
+            isFocused = false
             verifyCode()
         }) {
             Text("Verify")
@@ -145,7 +147,7 @@ struct VerificationCodeView: View {
             Rectangle()
                 .fill(.ultraThinMaterial)
                 .ignoresSafeArea()
-
+    
             ProgressView()
                 .frame(width: 45, height: 45)
                 .background(.background, in: RoundedRectangle(cornerRadius: 5))
@@ -198,7 +200,7 @@ struct VerificationCodeView: View {
                 errorMessage = "A new code has been sent."
                 showAlert = true
                 otpText = ""
-                isFocused = true  // 再送後に再度フォーカスを設定してキーボードを表示
+                isFocused = true
             }
         }
     }
