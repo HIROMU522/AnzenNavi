@@ -16,28 +16,38 @@ struct SignInView: View {
     @State private var showAlert: Bool = false
     @State private var isLoading: Bool = false
     @State private var nonce: String?
-    @State private var showPhoneNumberLogin: Bool = false
     @Environment(\.colorScheme) private var scheme
     @AppStorage("log_Status") private var logStatus: Bool = false
-    
+    @State private var navigationPath = NavigationPath() // NavigationPath を追加
+
     var body: some View {
-        ZStack(alignment: .bottom) {
-            backgroundImage
-                .mask(maskGradient)
-                .ignoresSafeArea()
-            
-            VStack(alignment: .leading) {
-                Spacer()
-                headerText
-                appleSignInButton
-                phoneNumberSignInButton
+        NavigationStack(path: $navigationPath) { // path をバインディング
+            ZStack(alignment: .bottom) {
+                backgroundImage
+                    .mask(maskGradient)
+                    .ignoresSafeArea()
+                
+                VStack(alignment: .leading) {
+                    Spacer()
+                    headerText
+                    appleSignInButton
+                    phoneNumberSignInButton // 既存の VStack 内に保持
+                }
+                .padding(20)
             }
-            .padding(20)
-        }
-        .alert(errorMessage, isPresented: $showAlert) { }
-        .overlay {
-            if isLoading {
-                LoadingScreen()
+            .alert(errorMessage, isPresented: $showAlert) { }
+            .overlay {
+                if isLoading {
+                    LoadingScreen()
+                }
+            }
+            .navigationDestination(for: SignInDestination.self) { destination in
+                switch destination {
+                case .phoneNumberLogin:
+                    PhoneNumberLoginView(navigationPath: $navigationPath)
+                case .verification(let info):
+                    VerificationCodeView(verificationID: info.verificationID, phoneNumber: info.phoneNumber)
+                }
             }
         }
     }
@@ -46,7 +56,7 @@ struct SignInView: View {
     
     private var backgroundImage: some View {
         GeometryReader { geometry in
-            Image(.BG)
+            Image("BG") // 画像名が "BG" であることを確認
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(width: geometry.size.width, height: geometry.size.height)
@@ -91,7 +101,7 @@ struct SignInView: View {
     
     private var phoneNumberSignInButton: some View {
         Button(action: {
-            showPhoneNumberLogin = true
+            navigationPath.append(SignInDestination.phoneNumberLogin)
         }) {
             Text("Sign in with Phone Number")
                 .foregroundStyle(Color.primary)
@@ -104,9 +114,6 @@ struct SignInView: View {
                 }
         }
         .padding(.top, 10)
-        .fullScreenCover(isPresented: $showPhoneNumberLogin) {
-            PhoneNumberLoginView()
-        }
     }
     
     // MARK: - Helper Views
