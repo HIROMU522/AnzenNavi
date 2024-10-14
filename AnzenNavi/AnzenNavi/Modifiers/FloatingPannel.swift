@@ -19,7 +19,7 @@ extension View {
 
 struct FloatingPanelView<Parent: View>: UIViewControllerRepresentable {
     @ViewBuilder var parent: Parent
-    @Binding var selectedTab: Int  // タブの選択状態をバインディングで受け取る
+    @Binding var selectedTab: Int  
 
     public func makeUIViewController(context: Context) -> UIHostingController<Parent> {
         let hostingController = UIHostingController(rootView: parent)
@@ -53,9 +53,7 @@ struct FloatingPanelView<Parent: View>: UIViewControllerRepresentable {
             fpc.addPanel(toParent: parentViewController, animated: false)
         }
 
-        // タブ選択に応じて FloatingPanel の内容を更新するメソッド
         func updateContent(selectedTab: Int) {
-            // タブごとに異なる SwiftUI View を UIViewController としてラップしてセットする
             let contentView: UIViewController
 
             switch selectedTab {

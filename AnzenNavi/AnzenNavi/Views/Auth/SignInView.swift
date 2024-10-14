@@ -18,10 +18,10 @@ struct SignInView: View {
     @State private var nonce: String?
     @Environment(\.colorScheme) private var scheme
     @AppStorage("log_Status") private var logStatus: Bool = false
-    @State private var navigationPath = NavigationPath() // NavigationPath を追加
-
+    @State private var navigationPath = NavigationPath()
+    
     var body: some View {
-        NavigationStack(path: $navigationPath) { // path をバインディング
+        NavigationStack(path: $navigationPath) {
             ZStack(alignment: .bottom) {
                 backgroundImage
                     .mask(maskGradient)
