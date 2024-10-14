@@ -31,7 +31,7 @@ struct SignInView: View {
                     Spacer()
                     headerText
                     appleSignInButton
-                    phoneNumberSignInButton // 既存の VStack 内に保持
+                    phoneNumberSignInButton
                 }
                 .padding(20)
             }
@@ -56,7 +56,7 @@ struct SignInView: View {
     
     private var backgroundImage: some View {
         GeometryReader { geometry in
-            Image("BG") // 画像名が "BG" であることを確認
+            Image("BG")
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(width: geometry.size.width, height: geometry.size.height)
