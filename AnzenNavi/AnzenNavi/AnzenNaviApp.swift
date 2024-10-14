@@ -16,9 +16,9 @@ struct AnzenNaviApp: App {
     var body: some Scene {
         WindowGroup {
             if logStatus {
-                MainView()  // ログイン済みならメイン画面へ
+                MainView()
             } else {
-                SignInView()  // ログインしていなければログイン画面へ
+                SignInView()  
             }
         }
     }

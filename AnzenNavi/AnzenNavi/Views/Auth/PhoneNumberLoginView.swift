@@ -189,7 +189,7 @@ struct PhoneNumberLoginView: View {
                 showAlert = true
             } else {
                 let info = VerificationInfo(verificationID: verificationID ?? "", phoneNumber: fullPhoneNumber)
-                navigationPath.append(SignInDestination.verification(info)) 
+                navigationPath.append(SignInDestination.verification(info))
             }
         }
     }
@@ -220,7 +220,7 @@ struct PhoneNumberLoginView: View {
 
 struct PhoneNumberLoginView_Previews: PreviewProvider {
     @State static var navigationPath = NavigationPath()
-
+    
     static var previews: some View {
         PhoneNumberLoginView(navigationPath: $navigationPath)
     }

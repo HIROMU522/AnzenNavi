@@ -19,10 +19,10 @@ struct BackButton: View {
                     .font(.system(size: 20, weight: .bold))
                     .foregroundColor(.black)
             }
-            Spacer() // ボタンを左に固定
+            Spacer()
         }
-        .padding(.horizontal, 20) // 左右にパディングを追加
-        .padding(.top, 10) // 上部にパディングを追加（必要に応じて調整）
+        .padding(.horizontal, 20)
+        .padding(.top, 10) 
     }
 }
 

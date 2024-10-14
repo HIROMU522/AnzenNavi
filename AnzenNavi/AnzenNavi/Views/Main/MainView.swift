@@ -8,7 +8,6 @@ struct MainView: View {
     var body: some View {
         ZStack {
             MapView()
-                .edgesIgnoringSafeArea(.all)
                 .floatingPanel(selectedTab: $selectedTab) 
             VStack {
                 Spacer()

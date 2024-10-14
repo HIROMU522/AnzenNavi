@@ -9,7 +9,6 @@ import SwiftUI
 import FirebaseAuth
 import Combine
 
-
 struct VerificationCodeView: View {
     @State var verificationID: String
     @State var phoneNumber: String
@@ -19,10 +18,10 @@ struct VerificationCodeView: View {
     @State private var isLoading = false
     @AppStorage("log_Status") private var logStatus: Bool = false
     @FocusState private var isFocused: Bool
-
+    
     @Environment(\.colorScheme) private var scheme
     @Environment(\.dismiss) private var dismiss 
-
+    
     var body: some View {
         VStack {
             BackButton()
@@ -44,22 +43,22 @@ struct VerificationCodeView: View {
         }
         .navigationBarBackButtonHidden(true)
     }
-
+    
     // MARK: - View Components
-
+    
     private var headerText: some View {
         Text("Phone Verification")
             .font(.title)
             .bold()
             .padding(.top, 50)
     }
-
+    
     private var instructionText: some View {
         Text("Enter your OTP code here")
             .foregroundColor(.secondary)
             .padding(.top, 5)
     }
-
+    
     private var otpInputBoxes: some View {
         HStack(spacing: 10) {
             ForEach(0..<6, id: \.self) { index in
@@ -81,7 +80,7 @@ struct VerificationCodeView: View {
             isFocused = true
         }
     }
-
+    
     // MARK: OTP Text Box with Animation
     private func OTPTextBox(_ index: Int) -> some View {
         ZStack {
@@ -109,7 +108,7 @@ struct VerificationCodeView: View {
         }
         .cornerRadius(6)
     }
-
+    
     private var resendButton: some View {
         Button(action: {
             isFocused = false
@@ -120,7 +119,7 @@ struct VerificationCodeView: View {
         }
         .padding(.bottom, 20)
     }
-
+    
     private var verifyButton: some View {
         Button(action: {
             isFocused = false
@@ -138,24 +137,24 @@ struct VerificationCodeView: View {
         .opacity(otpText.count < 6 ? 0.6 : 1)
         .edgesIgnoringSafeArea(.horizontal)
     }
-
+    
     // MARK: - Helper Views
-
+    
     @ViewBuilder
     private func LoadingScreen() -> some View {
         ZStack {
             Rectangle()
                 .fill(.ultraThinMaterial)
                 .ignoresSafeArea()
-    
+            
             ProgressView()
                 .frame(width: 45, height: 45)
                 .background(.background, in: RoundedRectangle(cornerRadius: 5))
         }
     }
-
+    
     // MARK: - Helper Methods
-
+    
     private func verifyCode() {
         isLoading = true
         let code = otpText
@@ -165,14 +164,14 @@ struct VerificationCodeView: View {
             isLoading = false
             return
         }
-
+        
         guard !verificationID.isEmpty else {
             errorMessage = "Verification ID not found."
             showAlert = true
             isLoading = false
             return
         }
-
+        
         let credential = PhoneAuthProvider.provider().credential(withVerificationID: verificationID, verificationCode: code)
         Auth.auth().signIn(with: credential) { authResult, error in
             isLoading = false
@@ -184,7 +183,7 @@ struct VerificationCodeView: View {
             logStatus = true
         }
     }
-
+    
     private func resendCode() {
         isLoading = true
         PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber, uiDelegate: nil) { (verificationID, error) in
@@ -194,7 +193,7 @@ struct VerificationCodeView: View {
                 showAlert = true
                 return
             }
-
+            
             if let verificationID = verificationID {
                 self.verificationID = verificationID
                 errorMessage = "A new code has been sent."
