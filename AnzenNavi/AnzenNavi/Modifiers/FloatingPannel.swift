@@ -9,37 +9,37 @@ import SwiftUI
 import UIKit
 import FloatingPanel
 
-// View extension to add FloatingPanel modifier
 extension View {
-    public func floatingPanel(selectedTab: Binding<Int>) -> some View {
-        FloatingPanelView(parent: { self }, selectedTab: selectedTab)
+    func floatingPanel(selectedTab: Binding<Int>, selectedShelter: Binding<Shelter?>) -> some View {
+        FloatingPanelView(parent: { self }, selectedTab: selectedTab, selectedShelter: selectedShelter)
             .ignoresSafeArea()
     }
 }
 
 struct FloatingPanelView<Parent: View>: UIViewControllerRepresentable {
     @ViewBuilder var parent: Parent
-    @Binding var selectedTab: Int  
+    @Binding var selectedTab: Int
+    @Binding var selectedShelter: Shelter?
 
-    public func makeUIViewController(context: Context) -> UIHostingController<Parent> {
+    func makeUIViewController(context: Context) -> UIHostingController<Parent> {
         let hostingController = UIHostingController(rootView: parent)
         hostingController.view.backgroundColor = nil
-        context.coordinator.setupFloatingPanel(hostingController, selectedTab: selectedTab) // 初期表示の設定
+        context.coordinator.setupFloatingPanel(hostingController, selectedTab: selectedTab, selectedShelter: selectedShelter)
         return hostingController
     }
 
-    public func updateUIViewController(
+    func updateUIViewController(
         _ uiViewController: UIHostingController<Parent>,
         context: Context
     ) {
-        context.coordinator.updateContent(selectedTab: selectedTab) // タブ変更に応じて内容を更新
+        context.coordinator.updateContent(selectedTab: selectedTab, selectedShelter: selectedShelter)
     }
 
-    public func makeCoordinator() -> Coordinator {
+    func makeCoordinator() -> Coordinator {
         Coordinator(view: self)
     }
 
-    final class Coordinator {
+    class Coordinator {
         private let view: FloatingPanelView<Parent>
         private lazy var fpc = FloatingPanelController()
 
@@ -47,26 +47,35 @@ struct FloatingPanelView<Parent: View>: UIViewControllerRepresentable {
             self.view = view
         }
 
-        func setupFloatingPanel(_ parentViewController: UIViewController, selectedTab: Int) {
+        func setupFloatingPanel(_ parentViewController: UIViewController, selectedTab: Int, selectedShelter: Shelter?) {
             fpc.layout = MyFloatingPanelLayout()
-            updateContent(selectedTab: selectedTab)
+            let appearance = SurfaceAppearance()
+            appearance.cornerRadius = 16.0
+            fpc.surfaceView.appearance = appearance
+            updateContent(selectedTab: selectedTab, selectedShelter: selectedShelter)
             fpc.addPanel(toParent: parentViewController, animated: false)
         }
 
-        func updateContent(selectedTab: Int) {
+        func updateContent(selectedTab: Int, selectedShelter: Shelter?) {
             let contentView: UIViewController
 
             switch selectedTab {
             case 0:
-                contentView = UIHostingController(rootView: HomeContentView())
+                if let shelter = selectedShelter {
+                    contentView = UIHostingController(rootView: HomeContentView(shelter: shelter))
+                } else {
+                    contentView = UIHostingController(rootView: Text("避難所が選択されていません"))
+                }
             case 1:
-                contentView = UIHostingController(rootView: MenuContentView())
+                contentView = UIHostingController(rootView: SafetyCheckContentView())
             case 2:
-                contentView = UIHostingController(rootView: ChecklistContentView())
+                contentView = UIHostingController(rootView: EmergencyBagContentView())
             case 3:
-                contentView = UIHostingController(rootView: ShoppingContentView())
+                contentView = UIHostingController(rootView: EmergencyMemoContentView())
+            case 4:
+                contentView = UIHostingController(rootView: MenuContentView())
             default:
-                contentView = UIHostingController(rootView: HomeContentView())
+                contentView = UIHostingController(rootView: Text("不明なタブが選択されました"))
             }
 
             fpc.set(contentViewController: contentView)
@@ -79,7 +88,8 @@ struct FloatingPanelView<Parent: View>: UIViewControllerRepresentable {
         let anchors: [FloatingPanelState: FloatingPanelLayoutAnchoring] = [
             .full: FloatingPanelLayoutAnchor(absoluteInset: 16.0, edge: .top, referenceGuide: .safeArea),
             .half: FloatingPanelLayoutAnchor(fractionalInset: 0.5, edge: .bottom, referenceGuide: .safeArea),
-            .tip: FloatingPanelLayoutAnchor(absoluteInset: 80.0, edge: .bottom, referenceGuide: .safeArea),
+            .tip: FloatingPanelLayoutAnchor(absoluteInset: 170.0, edge: .bottom, referenceGuide: .safeArea),
         ]
     }
 }
+

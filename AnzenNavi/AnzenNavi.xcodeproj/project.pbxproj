@@ -42,6 +42,7 @@
 			membershipExceptions = (
 				Resources/CountryNumbers.json,
 				"Resources/GoogleService-Info.plist",
+				Resources/shelters_data.json,
 			);
 			target = AD75477F2C9D5EA3002AB6C7 /* AnzenNaviTests */;
 		};
@@ -50,6 +51,7 @@
 			membershipExceptions = (
 				Resources/CountryNumbers.json,
 				"Resources/GoogleService-Info.plist",
+				Resources/shelters_data.json,
 			);
 			target = AD7547892C9D5EA3002AB6C7 /* AnzenNaviUITests */;
 		};

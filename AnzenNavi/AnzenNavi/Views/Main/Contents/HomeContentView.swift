@@ -6,46 +6,32 @@
 //
 
 import SwiftUI
-import FirebaseAuth
 
 struct HomeContentView: View {
-    @AppStorage("log_Status") private var logStatus: Bool = true // ログイン状態を管理
+    var shelter: Shelter
 
     var body: some View {
-        VStack {
-            Text("ホーム画面のコンテンツ")
-                .font(.largeTitle)
-                .padding()
-
-            // ログアウトボタン
-            Button(action: {
-                logOut()
-            }) {
-                Text("Log Out")
-                    .foregroundColor(.white)
-                    .padding()
-                    .background(Color.red)
-                    .cornerRadius(10)
-            }
-            .padding(.top, 20)
+        VStack(alignment: .leading) {
+            Text(shelter.name)
+                .font(.title)
+                .padding(.bottom, 2)
+            Text("住所: \(shelter.address)")
+                .padding(.bottom, 2)
+            Text("災害種別: \(shelter.disasters.joined(separator: ", "))")
+                .padding(.bottom, 2)
+            Text("指定避難所: \(shelter.designated_shelter ? "はい" : "いいえ")")
         }
-        .edgesIgnoringSafeArea(.all)
-    }
-
-    /// ログアウト処理
-    private func logOut() {
-        do {
-            try Auth.auth().signOut() // Firebaseからサインアウト
-            logStatus = false // ログイン状態を更新し、ログイン画面に遷移
-        } catch {
-            print("Error signing out: \(error.localizedDescription)")
-        }
+        .padding()
+        .background(Color.white.opacity(0.9))
+        .cornerRadius(10)
+        .padding()
     }
 }
 
 struct HomeContentView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeContentView()
+        HomeContentView(shelter: Shelter(name: "テスト避難所", address: "テスト住所", latitude: 0.0, longitude: 0.0, disasters: ["地震", "津波"], designated_shelter: true))
     }
 }
+
 

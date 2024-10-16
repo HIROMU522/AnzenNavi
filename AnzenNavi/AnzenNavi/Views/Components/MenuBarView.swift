@@ -21,25 +21,34 @@ struct MenuBarView: View {
 
             Color.clear
                 .tabItem {
-                    Image(systemName: "list.bullet")
-                    Text("メニュー")
+                    Image(systemName: "heart.fill")
+                    Text("安否確認")
                 }
                 .tag(1)
 
             Color.clear
                 .tabItem {
-                    Image(systemName: "checklist")
-                    Text("チェックリスト")
+                    Image(systemName: "bag.fill")
+                    Text("防災バッグ")
                 }
                 .tag(2)
 
             Color.clear
                 .tabItem {
-                    Image(systemName: "cart.fill")
-                    Text("買い物")
+                    Image(systemName: "note.text")
+                    Text("緊急メモ")
                 }
                 .tag(3)
+
+            Color.clear
+                .tabItem {
+                    Image(systemName: "list.bullet")
+                    Text("メニュー")
+                }
+                .tag(4)
         }
     }
 }
-
+#Preview {
+    MenuBarView(selectedTab: .constant(0))
+}

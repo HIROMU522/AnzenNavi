@@ -1,14 +1,20 @@
+//
+//  MainView.swift
+//  AnzenNavi
+//
+//  Created by 田中大夢 on 2024/10/15.
+//
+
 import SwiftUI
-import UIKit
-import FloatingPanel
 
 struct MainView: View {
     @State private var selectedTab = 0
-    
+    @State private var selectedShelter: Shelter?
+
     var body: some View {
         ZStack {
-            MapView()
-                .floatingPanel(selectedTab: $selectedTab) 
+            MapView(selectedShelter: $selectedShelter)
+                .floatingPanel(selectedTab: $selectedTab, selectedShelter: $selectedShelter)
             VStack {
                 Spacer()
                 MenuBarView(selectedTab: $selectedTab)
@@ -21,3 +27,5 @@ struct MainView: View {
 #Preview {
     MainView()
 }
+
+
