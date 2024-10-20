@@ -10,9 +10,10 @@ import MapKit
 struct ClusteredMapView: UIViewRepresentable {
     @Binding var annotations: [ShelterAnnotation]
     @Binding var selectedShelter: Shelter?
+    @Binding var cameraPosition: MKCoordinateRegion?
     let manager = CLLocationManager()
     var onRegionChange: ((MKCoordinateRegion) -> Void)?
-    let zoomLevelThreshold: Double = 10.0
+    let zoomLevelThreshold: Double = 12.0
 
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
@@ -44,6 +45,13 @@ struct ClusteredMapView: UIViewRepresentable {
         uiView.removeAnnotations(uiView.annotations)
 
         uiView.addAnnotations(annotations)
+        
+        if let cameraPosition = cameraPosition {
+            uiView.setRegion(cameraPosition, animated: true)
+            DispatchQueue.main.async {
+                self.cameraPosition = nil 
+            }
+        }
     }
 
     class Coordinator: NSObject, MKMapViewDelegate {
