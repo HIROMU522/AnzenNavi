@@ -73,8 +73,12 @@ struct EnhancedClusteredMapView: UIViewRepresentable {
         
         func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
             let region = mapView.region
-            parent.currentZoomLevel = mapView.currentZoomLevel
-            parent.onRegionChange?(region)
+            let newZoomLevel = mapView.currentZoomLevel
+            
+            DispatchQueue.main.async {
+                self.parent.currentZoomLevel = newZoomLevel
+                self.parent.onRegionChange?(region)
+            }
         }
         
         func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
