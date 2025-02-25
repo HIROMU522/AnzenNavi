@@ -13,8 +13,10 @@ struct MapView: View {
     @State private var cameraPosition: MKCoordinateRegion?
     @Binding var selectedShelter: Shelter?
     @State private var allShelters: [Shelter] = []
-    @State private var annotations: [ShelterAnnotation] = []
+    @State private var annotations: [MKAnnotation] = []
     @State private var showZoomMessage: Bool = false
+    @State private var currentZoomLevel: Double = 0.0
+    @State private var hierarchicalClusteringManager = HierarchicalClusteringManager()
     
     @Environment(\.colorScheme) private var scheme
     @Environment(\.dismiss) private var dismiss
@@ -23,6 +25,10 @@ struct MapView: View {
         ZStack {
             mapView
             userLocationButton
+            
+            if showZoomMessage {
+                zoomMessageView
+            }
         }
         .onAppear {
             loadShelters()
@@ -32,12 +38,16 @@ struct MapView: View {
     // MARK: - View Components
     
     private var mapView: some View {
-        ClusteredMapView(
+        EnhancedClusteredMapView(
             annotations: $annotations,
             selectedShelter: $selectedShelter,
             cameraPosition: $cameraPosition,
+            currentZoomLevel: $currentZoomLevel,
             onRegionChange: { region in
                 updateAnnotations(for: region)
+            },
+            onClusterTapped: { annotation in
+                handleClusterTap(annotation)
             }
         )
         .edgesIgnoringSafeArea(.all)
@@ -55,6 +65,19 @@ struct MapView: View {
         }
     }
     
+    private var zoomMessageView: some View {
+        VStack {
+            Spacer().frame(height: 100)
+            Text("拡大すると避難所が表示されます")
+                .padding()
+                .background(Color.black.opacity(0.7))
+                .foregroundColor(.white)
+                .cornerRadius(10)
+                .padding()
+            Spacer()
+        }
+    }
+    
     // MARK: - Helper Methods
     
     private func loadShelters() {
@@ -62,31 +85,51 @@ struct MapView: View {
             let shelters = ShelterDataLoader.loadSheltersFromJSON()
             DispatchQueue.main.async {
                 self.allShelters = shelters
+                self.hierarchicalClusteringManager.setShelters(shelters)
+                self.updateInitialAnnotations()
             }
         }
     }
     
-    private func updateAnnotations(for region: MKCoordinateRegion) {
-        let zoomLevelThreshold = 10.0
-        let zoomLevel = log2(360 * (Double(UIScreen.main.bounds.size.width / 256) / region.span.longitudeDelta)) + 1
-        
-        if zoomLevel >= zoomLevelThreshold {
-            DispatchQueue.global(qos: .userInitiated).async {
-                let visibleShelters = self.allShelters.filter { shelter in
-                    region.contains(coordinate: CLLocationCoordinate2D(latitude: shelter.latitude, longitude: shelter.longitude))
-                }
-                let newAnnotations = visibleShelters.map { ShelterAnnotation(shelter: $0) }
-                DispatchQueue.main.async {
-                    self.annotations = newAnnotations
-                    self.showZoomMessage = false
-                    print("表示中のアノテーション数: \(self.annotations.count)")
-                }
-            }
+    private func updateInitialAnnotations() {
+        // 初期状態では日本全体のアノテーションを表示
+        if let initialRegion = cameraPosition {
+            updateAnnotations(for: initialRegion)
         } else {
+            // デフォルトの表示領域（日本全体）
+            let japanRegion = MKCoordinateRegion(
+                center: CLLocationCoordinate2D(latitude: 36.2048, longitude: 138.2529),
+                span: MKCoordinateSpan(latitudeDelta: 20.0, longitudeDelta: 20.0)
+            )
+            updateAnnotations(for: japanRegion)
+        }
+    }
+    
+    private func updateAnnotations(for region: MKCoordinateRegion) {
+        let level = ClusteringLevel.forZoomLevel(currentZoomLevel)
+        
+        DispatchQueue.global(qos: .userInitiated).async {
+            let newAnnotations = self.hierarchicalClusteringManager.getAnnotations(for: level, in: region)
+            
             DispatchQueue.main.async {
-                self.annotations.removeAll()
-                self.showZoomMessage = true
+                self.annotations = newAnnotations
+                self.showZoomMessage = level != .individual && !newAnnotations.isEmpty
             }
+        }
+    }
+    
+    private func handleClusterTap(_ annotation: MKAnnotation) {
+        if let hierarchicalAnnotation = annotation as? HierarchicalAnnotation {
+            let zoomLevel = hierarchicalAnnotation.level.recommendedZoomLevel
+            let newRegion = MKCoordinateRegion(
+                center: hierarchicalAnnotation.coordinate,
+                span: MKCoordinateSpan(
+                    latitudeDelta: 360 / pow(2, zoomLevel) * 0.5,
+                    longitudeDelta: 360 / pow(2, zoomLevel) * 0.5
+                )
+            )
+            
+            self.cameraPosition = newRegion
         }
     }
     
@@ -104,11 +147,5 @@ struct MapView: View {
                 .clipShape(Circle())
                 .shadow(radius: 5)
         }
-    }
-    
-    // MARK: - Helper Properties
-    
-    private var backgroundColor: Color {
-        scheme == .dark ? Color(.systemGray5) : Color(.systemGray6)
     }
 }
