@@ -51,7 +51,7 @@ struct MapView: View {
                     .padding(.leading)
                 Spacer()
             }
-            .padding(.bottom, 200)
+            .padding(.bottom, 230)
         }
     }
     

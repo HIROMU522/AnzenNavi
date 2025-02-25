@@ -20,14 +20,14 @@ struct FloatingPanelView<Parent: View>: UIViewControllerRepresentable {
     @ViewBuilder var parent: Parent
     @Binding var selectedTab: Int
     @Binding var selectedShelter: Shelter?
-
+    
     func makeUIViewController(context: Context) -> UIHostingController<Parent> {
         let hostingController = UIHostingController(rootView: parent)
         hostingController.view.backgroundColor = nil
         context.coordinator.setupFloatingPanel(hostingController, selectedTab: selectedTab, selectedShelter: selectedShelter)
         return hostingController
     }
-
+    
     func updateUIViewController(
         _ uiViewController: UIHostingController<Parent>,
         context: Context
@@ -38,15 +38,15 @@ struct FloatingPanelView<Parent: View>: UIViewControllerRepresentable {
     func makeCoordinator() -> Coordinator {
         Coordinator(view: self)
     }
-
+    
     class Coordinator {
         private let view: FloatingPanelView<Parent>
         private lazy var fpc = FloatingPanelController()
-
+        
         init(view: FloatingPanelView<Parent>) {
             self.view = view
         }
-
+        
         func setupFloatingPanel(_ parentViewController: UIViewController, selectedTab: Int, selectedShelter: Shelter?) {
             fpc.layout = MyFloatingPanelLayout()
             let appearance = SurfaceAppearance()
@@ -55,10 +55,10 @@ struct FloatingPanelView<Parent: View>: UIViewControllerRepresentable {
             updateContent(selectedTab: selectedTab, selectedShelter: selectedShelter)
             fpc.addPanel(toParent: parentViewController, animated: false)
         }
-
+        
         func updateContent(selectedTab: Int, selectedShelter: Shelter?) {
             let contentView: UIViewController
-
+            
             switch selectedTab {
             case 0:
                 if let shelter = selectedShelter {
@@ -80,16 +80,16 @@ struct FloatingPanelView<Parent: View>: UIViewControllerRepresentable {
 
             fpc.set(contentViewController: contentView)
         }
+        
+        final class MyFloatingPanelLayout: FloatingPanelLayout {
+            let position: FloatingPanelPosition = .bottom
+            let initialState: FloatingPanelState = .tip
+            let anchors: [FloatingPanelState: FloatingPanelLayoutAnchoring] = [
+                .full: FloatingPanelLayoutAnchor(absoluteInset: 16.0, edge: .top, referenceGuide: .safeArea),
+                .half: FloatingPanelLayoutAnchor(absoluteInset: 220.0, edge: .bottom, referenceGuide: .safeArea),
+                .tip: FloatingPanelLayoutAnchor(absoluteInset: 120.0, edge: .bottom, referenceGuide: .safeArea),
+            ]
+        }
     }
-
-    final class MyFloatingPanelLayout: FloatingPanelLayout {
-        let position: FloatingPanelPosition = .bottom
-        let initialState: FloatingPanelState = .tip
-        let anchors: [FloatingPanelState: FloatingPanelLayoutAnchoring] = [
-            .full: FloatingPanelLayoutAnchor(absoluteInset: 16.0, edge: .top, referenceGuide: .safeArea),
-            .half: FloatingPanelLayoutAnchor(fractionalInset: 0.5, edge: .bottom, referenceGuide: .safeArea),
-            .tip: FloatingPanelLayoutAnchor(absoluteInset: 170.0, edge: .bottom, referenceGuide: .safeArea),
-        ]
-    }
+    
 }
-

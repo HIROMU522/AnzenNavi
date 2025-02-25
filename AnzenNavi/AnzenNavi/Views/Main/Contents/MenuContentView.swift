@@ -9,7 +9,8 @@ import SwiftUI
 import FirebaseAuth
 
 struct MenuContentView: View {
-    @AppStorage("log_Status") private var logStatus: Bool = true // ログイン状態を管理
+    @AppStorage("log_Status") private var logStatus: Bool = true
+    
     var body: some View {
         VStack {
             Text("メニュー画面のコンテンツ")
