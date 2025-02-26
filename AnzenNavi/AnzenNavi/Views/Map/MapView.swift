@@ -173,14 +173,6 @@ struct MapView: View {
     private func updateAnnotations(for region: MKCoordinateRegion) {
         let level = ClusteringLevel.forZoomLevel(currentZoomLevel)
         
-        if level == .country || level == .prefecture {
-            DispatchQueue.main.async {
-                self.showZoomMessage = true
-                self.annotations = []
-            }
-            return
-        }
-        
         DispatchQueue.global(qos: .userInitiated).async {
             let maxAnnotations = 300
             
