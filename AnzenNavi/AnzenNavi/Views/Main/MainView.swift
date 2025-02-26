@@ -17,7 +17,7 @@ struct MainView: View {
                 .floatingPanel(selectedTab: $selectedTab, selectedShelter: $selectedShelter)
             VStack {
                 Spacer()
-                MenuBarView(selectedTab: $selectedTab)
+                TabBarView(selectedTab: $selectedTab)
                     .frame(height: 50)
             }
         }

@@ -1,13 +1,13 @@
 //
-//  MenuBarView.swift
+//  TabBarView.swift
 //  AnzenNavi
 //
-//  Created by 田中大夢 on 2024/09/22.
+//  Created by 田中大夢 on 2025/02/26.
 //
 
 import SwiftUI
 
-struct MenuBarView: View {
+struct TabBarView: View {
     @Binding var selectedTab: Int
 
     var body: some View {
@@ -50,5 +50,5 @@ struct MenuBarView: View {
     }
 }
 #Preview {
-    MenuBarView(selectedTab: .constant(0))
+    TabBarView(selectedTab: .constant(0))
 }
