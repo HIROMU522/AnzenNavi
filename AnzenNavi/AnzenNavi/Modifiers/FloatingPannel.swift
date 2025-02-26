@@ -123,7 +123,7 @@ struct FloatingPanelView<Parent: View>: UIViewControllerRepresentable {
             }
             
             func backdropAlpha(for state: FloatingPanelState) -> CGFloat {
-                return 0.0 
+                return 0.0
             }
         }
     }
