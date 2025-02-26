@@ -16,7 +16,7 @@ struct EnhancedClusteredMapView: UIViewRepresentable {
     
     var onRegionChange: ((MKCoordinateRegion) -> Void)?
     var onClusterTapped: ((MKAnnotation) -> Void)?
-    var clearSelectionOnTap: Bool = false  // マップタップで選択を解除するかどうか
+    var clearSelectionOnTap: Bool = false
     
     let manager = CLLocationManager()
     
@@ -32,13 +32,11 @@ struct EnhancedClusteredMapView: UIViewRepresentable {
         manager.requestWhenInUseAuthorization()
         mapView.userTrackingMode = .follow
         
-        // 標準のアノテーションビューを登録
         mapView.register(
             MKMarkerAnnotationView.self,
             forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier
         )
         
-        // マップタップのジェスチャー認識を追加
         if clearSelectionOnTap {
             let tapGesture = UITapGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.handleMapTap(_:)))
             tapGesture.delegate = context.coordinator
@@ -51,20 +49,16 @@ struct EnhancedClusteredMapView: UIViewRepresentable {
     func updateUIView(_ uiView: MKMapView, context: Context) {
         uiView.delegate = context.coordinator
         
-        // アノテーションの更新
         let currentAnnotations = uiView.annotations.filter { !($0 is MKUserLocation) }
         
-        // 既存のアノテーションから削除するべきものを特定
         let annotationsToRemove = currentAnnotations.filter { annotation in
             !annotations.contains { $0.isEqual(annotation) }
         }
         
-        // 新しく追加するべきアノテーションを特定
         let annotationsToAdd = annotations.filter { annotation in
             !currentAnnotations.contains { $0.isEqual(annotation) }
         }
         
-        // 削除と追加を行う
         if !annotationsToRemove.isEmpty {
             uiView.removeAnnotations(annotationsToRemove)
         }
@@ -73,7 +67,6 @@ struct EnhancedClusteredMapView: UIViewRepresentable {
             uiView.addAnnotations(annotationsToAdd)
         }
         
-        // 選択中の避難所があれば、対応するアノテーションを選択状態にする
         if let selectedShelter = selectedShelter {
             for annotation in uiView.annotations {
                 if let shelterAnnotation = annotation as? ShelterAnnotation,
@@ -84,19 +77,17 @@ struct EnhancedClusteredMapView: UIViewRepresentable {
             }
         }
         
-        // カメラ位置の更新
         if let cameraPosition = cameraPosition {
             uiView.setRegion(cameraPosition, animated: true)
             DispatchQueue.main.async {
-                self.cameraPosition = nil  // 一度適用したら設定をクリア
+                self.cameraPosition = nil
             }
         }
         
-        // 現在のズームレベルを更新
         let newZoomLevel = uiView.currentZoomLevel
-        if abs(newZoomLevel - currentZoomLevel) > 0.1 { // 変化が一定以上ある場合のみ更新
+        if abs(newZoomLevel - currentZoomLevel) > 0.1 {
             DispatchQueue.main.async {
-                self.currentZoomLevel = newZoomLevel  // 次のサイクルに更新を延期
+                self.currentZoomLevel = newZoomLevel
             }
         }
     }
@@ -120,13 +111,10 @@ struct EnhancedClusteredMapView: UIViewRepresentable {
         
         func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
             if let annotation = view.annotation {
-                // 階層的アノテーションの場合
                 if let hierarchicalAnnotation = annotation as? HierarchicalAnnotation {
-                    // タップイベントを親に通知
                     parent.onClusterTapped?(hierarchicalAnnotation)
                     mapView.deselectAnnotation(annotation, animated: true)
                 }
-                // 避難所アノテーションの場合
                 else if let shelterAnnotation = annotation as? ShelterAnnotation {
                     DispatchQueue.main.async {
                         self.parent.selectedShelter = shelterAnnotation.shelter
@@ -136,16 +124,13 @@ struct EnhancedClusteredMapView: UIViewRepresentable {
         }
         
         func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
-            // ここでは選択解除時の動作を制御しない（マップ移動時に解除されないようにするため）
         }
         
         func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-            // ユーザーの現在地は標準の青い点で表示
             if annotation is MKUserLocation {
                 return nil
             }
             
-            // 階層的アノテーションの場合
             if let hierarchicalAnnotation = annotation as? HierarchicalAnnotation {
                 let identifier = "HierarchicalAnnotation"
                 let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKMarkerAnnotationView
@@ -154,7 +139,6 @@ struct EnhancedClusteredMapView: UIViewRepresentable {
                 annotationView.annotation = hierarchicalAnnotation
                 annotationView.canShowCallout = true
                 
-                // 階層に応じた表示スタイルを設定
                 switch hierarchicalAnnotation.level {
                 case .country:
                     annotationView.markerTintColor = .systemBlue
@@ -169,14 +153,12 @@ struct EnhancedClusteredMapView: UIViewRepresentable {
                     annotationView.glyphText = "\(hierarchicalAnnotation.count)"
                     
                 case .individual:
-                    // 個別避難所は通常のアノテーションで表示
                     break
                 }
                 
                 return annotationView
             }
             
-            // 避難所アノテーションの場合
             if let shelterAnnotation = annotation as? ShelterAnnotation {
                 let identifier = "ShelterAnnotation"
                 let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKMarkerAnnotationView
@@ -193,13 +175,11 @@ struct EnhancedClusteredMapView: UIViewRepresentable {
             return nil
         }
         
-        // マップタップのハンドラ
         @objc func handleMapTap(_ gestureRecognizer: UITapGestureRecognizer) {
             if gestureRecognizer.state == .ended {
                 let mapView = gestureRecognizer.view as! MKMapView
                 let point = gestureRecognizer.location(in: mapView)
                 
-                // タップした場所がアノテーション上でなかった場合のみ選択を解除
                 if !didTapOnAnnotation(mapView, at: point) {
                     DispatchQueue.main.async {
                         self.parent.selectedShelter = nil
@@ -208,11 +188,9 @@ struct EnhancedClusteredMapView: UIViewRepresentable {
             }
         }
         
-        // タップがアノテーション上かどうかを判定
         private func didTapOnAnnotation(_ mapView: MKMapView, at point: CGPoint) -> Bool {
             for annotation in mapView.annotations {
                 if let view = mapView.view(for: annotation) {
-                    // アノテーションビューの領域を拡大（タップしやすくするため）
                     let expandedRect = view.frame.insetBy(dx: -22, dy: -22)
                     if expandedRect.contains(point) {
                         return true
@@ -222,9 +200,7 @@ struct EnhancedClusteredMapView: UIViewRepresentable {
             return false
         }
         
-        // UIGestureRecognizerDelegateメソッド
         func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-            // アノテーションビュー上のタップは無視する（アノテーション選択を優先）
             if let view = touch.view, view is MKAnnotationView || view.superview is MKAnnotationView {
                 return false
             }
@@ -233,7 +209,6 @@ struct EnhancedClusteredMapView: UIViewRepresentable {
     }
 }
 
-// MKMapViewの拡張：現在のズームレベルを計算
 extension MKMapView {
     var currentZoomLevel: Double {
         return log2(360 * (Double(self.frame.size.width / 256) / self.region.span.longitudeDelta)) + 1

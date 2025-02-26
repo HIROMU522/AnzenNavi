@@ -14,23 +14,17 @@ struct HomeContentView: View {
     @State private var showAllFacilities = false
     @Environment(\.colorScheme) private var colorScheme
     
-    // 全ての設備タイプ
     private let allFacilities = Shelter.Facility.allCases
     
-    // 表示する設備（初期は6つまで）
     private var displayedFacilities: [Shelter.Facility] {
         showAllFacilities ? allFacilities : Array(allFacilities.prefix(6))
     }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            // ヘッダーセクション
             headerSection
-            
-            // スクロール可能なコンテンツ
             ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading, spacing: 16) {
-                    // 各セクション
                     sectionContainer {
                         basicInfoSection
                     }
@@ -64,7 +58,7 @@ struct HomeContentView: View {
                 .padding(.horizontal, 16)
                 .padding(.top, 12)
             }
-            .id("HomeContentScrollView") // スクロールビューの特定用ID
+            .id("HomeContentScrollView")
         }
         .sheet(isPresented: $showingShareSheet) {
             shareSheet()
@@ -74,7 +68,6 @@ struct HomeContentView: View {
         }
     }
     
-    // セクションコンテナ（一貫したデザインを適用するためのラッパー）
     private func sectionContainer<Content: View>(@ViewBuilder content: () -> Content) -> some View {
         content()
             .padding(.vertical, 12)
@@ -118,7 +111,6 @@ struct HomeContentView: View {
                 .foregroundColor(.secondary)
                 .padding(.bottom, 8)
             
-            // 指定避難所タグを右上に表示
             if shelter.designated_shelter {
                 HStack {
                     Spacer()
@@ -132,12 +124,12 @@ struct HomeContentView: View {
                                 .fill(Color.red)
                         )
                 }
-                .padding(.top, -32) // ヘッダーに重ねて表示
+                .padding(.top, -32)
             }
         }
         .padding(.horizontal, 16)
-        .padding(.top, 24) // より広いスペースを確保
-        .padding(.bottom, 16) // 下側にもスペースを追加
+        .padding(.top, 24)
+        .padding(.bottom, 16)
         .background(colorScheme == .dark ? Color(UIColor.systemBackground) : .white)
     }
     
@@ -147,15 +139,13 @@ struct HomeContentView: View {
                 .font(.headline)
                 .foregroundColor(.primary)
                 .padding(.bottom, 4)
-            
-            // アクセス情報（情報がない場合は「--」を表示）
+
             infoRow(
                 icon: "figure.walk",
                 title: "最寄り駅からのアクセス",
                 value: shelter.accessInfo ?? "--"
             )
             
-            // 電話番号（情報がない場合は「--」を表示）
             infoRow(
                 icon: "phone.fill",
                 title: "連絡先",
@@ -204,20 +194,17 @@ struct HomeContentView: View {
                 .padding(.bottom, 4)
             
             HStack(spacing: 12) {
-                // ステータス
                 statusInfoBox(
                     title: "ステータス",
                     value: shelter.status?.rawValue ?? "状況不明",
                     statusColor: shelter.status != nil ? statusColor(for: shelter.status!) : .gray
                 )
                 
-                // 収容人数
                 statusInfoBox(
                     title: "収容可能人数",
                     value: shelter.capacity != nil ? "\(shelter.capacity!)名" : "--"
                 )
                 
-                // 現在の避難者数
                 statusInfoBox(
                     title: "現在の避難者数",
                     value: "--"
@@ -260,7 +247,6 @@ struct HomeContentView: View {
                 
                 Spacer()
                 
-                // もっと見る / 閉じる ボタン
                 Button(action: {
                     withAnimation {
                         showAllFacilities.toggle()
@@ -330,7 +316,7 @@ struct HomeContentView: View {
             .foregroundColor(disasterTextColor(for: disaster))
             .padding(.horizontal, 16)
             .padding(.vertical, 8)
-            .frame(height: 34) // 高さを固定して統一
+            .frame(height: 34)
             .background(
                 Capsule()
                     .stroke(disasterColor(for: disaster), lineWidth: 1)
@@ -426,7 +412,6 @@ struct HomeContentView: View {
     }
     
     private func disasterTextColor(for disaster: String) -> Color {
-        // より読みやすいテキスト色
         return disasterColor(for: disaster)
     }
     
@@ -480,19 +465,15 @@ struct HomeContentView: View {
         let longitude = shelter.longitude
         let name = shelter.name.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
         
-        // Google Mapsアプリがインストールされているか確認
         if let url = URL(string: "comgooglemaps://"), UIApplication.shared.canOpenURL(url) {
-            // Google Mapsアプリを開く
             let mapUrl = URL(string: "comgooglemaps://?daddr=\(latitude),\(longitude)&directionsmode=walking&q=\(name)")!
             UIApplication.shared.open(mapUrl)
         } else {
-            // ウェブブラウザでGoogle Mapsを開く
             let mapUrl = URL(string: "https://www.google.com/maps/dir/?api=1&destination=\(latitude),\(longitude)&travelmode=walking&q=\(name)")!
             UIApplication.shared.open(mapUrl)
         }
     }
     
-    // シェアシートの実装
     private func shareSheet() -> some View {
         let shareText = """
         避難所情報: \(shelter.name)

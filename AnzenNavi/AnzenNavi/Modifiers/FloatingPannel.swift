@@ -50,22 +50,17 @@ struct FloatingPanelView<Parent: View>: UIViewControllerRepresentable {
         func setupFloatingPanel(_ parentViewController: UIViewController, selectedTab: Int, selectedShelter: Shelter?) {
             fpc.delegate = self
             
-            // パネルレイアウトを設定
             fpc.layout = MyFloatingPanelLayout()
             
-            // パネルの見た目を設定
             let appearance = SurfaceAppearance()
             appearance.cornerRadius = 16.0
             fpc.surfaceView.appearance = appearance
             
-            // スクロール連動の設定
-            fpc.isRemovalInteractionEnabled = false  // スワイプでの削除を無効化
-            fpc.backdropView.dismissalTapGestureRecognizer.isEnabled = false  // 背景タップでの閉じるを無効化
+            fpc.isRemovalInteractionEnabled = false
+            fpc.backdropView.dismissalTapGestureRecognizer.isEnabled = false
             
-            // 内容を更新
             updateContent(selectedTab: selectedTab, selectedShelter: selectedShelter)
             
-            // パネルを追加
             fpc.addPanel(toParent: parentViewController, animated: false)
         }
         
@@ -78,7 +73,6 @@ struct FloatingPanelView<Parent: View>: UIViewControllerRepresentable {
                     let homeContentView = HomeContentView(shelter: shelter)
                     contentView = UIHostingController(rootView: homeContentView)
                     
-                    // スクロールビューとの連動を設定するため、画面が表示された後に処理
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         self.findScrollViewAndSetupTracking(in: contentView.view)
                     }
@@ -100,26 +94,20 @@ struct FloatingPanelView<Parent: View>: UIViewControllerRepresentable {
             fpc.set(contentViewController: contentView)
         }
         
-        // ビュー階層からスクロールビューを探して追跡設定
         private func findScrollViewAndSetupTracking(in view: UIView) {
-            // UIScrollViewを探す
             for subview in view.subviews {
-                // ScrollViewを見つけたら追跡を設定
                 if let scrollView = subview as? UIScrollView {
                     fpc.track(scrollView: scrollView)
                     return
                 }
                 
-                // 子ビューを再帰的に探索
                 if subview.subviews.count > 0 {
                     findScrollViewAndSetupTracking(in: subview)
                 }
             }
         }
         
-        // FloatingPanelControllerDelegate
         func floatingPanelDidChangeState(_ fpc: FloatingPanelController) {
-            // 状態変更時の処理
         }
         
         final class MyFloatingPanelLayout: FloatingPanelLayout {
@@ -135,7 +123,7 @@ struct FloatingPanelView<Parent: View>: UIViewControllerRepresentable {
             }
             
             func backdropAlpha(for state: FloatingPanelState) -> CGFloat {
-                return 0.0 // 背景の暗さ
+                return 0.0 
             }
         }
     }

@@ -9,12 +9,11 @@ import Foundation
 import MapKit
 
 enum ClusteringLevel: Int {
-    case country = 0      // 日本全体
-    case prefecture = 1   // 都道府県
-    case municipality = 2 // 市区町村
-    case individual = 3   // 個別避難所
+    case country = 0
+    case prefecture = 1
+    case municipality = 2
+    case individual = 3
     
-    // ズームレベルから階層を決定
     static func forZoomLevel(_ zoomLevel: Double) -> ClusteringLevel {
         switch zoomLevel {
         case 0..<6:   return .country
@@ -24,7 +23,6 @@ enum ClusteringLevel: Int {
         }
     }
     
-    // この階層に適したズームレベルを返す
     var recommendedZoomLevel: Double {
         switch self {
         case .country:      return 5.0
