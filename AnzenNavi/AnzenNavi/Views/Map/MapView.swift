@@ -17,6 +17,7 @@ struct MapView: View {
     @State private var showZoomMessage: Bool = false
     @State private var currentZoomLevel: Double = 0.0
     @State private var hierarchicalClusteringManager = HierarchicalClusteringManager()
+    @State private var isInitialLoad: Bool = true
     
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.dismiss) private var dismiss
@@ -28,6 +29,10 @@ struct MapView: View {
             
             if showZoomMessage {
                 zoomMessageView
+            }
+            
+            if isInitialLoad {
+                loadingView
             }
         }
         .onAppear {
@@ -52,6 +57,27 @@ struct MapView: View {
             clearSelectionOnTap: true  // マップのタップで選択を解除するフラグ
         )
         .edgesIgnoringSafeArea(.all)
+    }
+    
+    private var loadingView: some View {
+        ZStack {
+            Color.black.opacity(0.4)
+                .edgesIgnoringSafeArea(.all)
+            
+            VStack {
+                ProgressView()
+                    .scaleEffect(1.5)
+                    .padding()
+                
+                Text("データを読み込み中...")
+                    .foregroundColor(.white)
+                    .font(.headline)
+            }
+            .padding(20)
+            .background(Color(.systemBackground))
+            .cornerRadius(10)
+            .shadow(radius: 10)
+        }
     }
     
     private var userLocationButton: some View {
@@ -82,12 +108,60 @@ struct MapView: View {
     // MARK: - Helper Methods
     
     private func loadShelters() {
+        // バックグラウンドスレッドでデータを非同期に読み込む
         DispatchQueue.global(qos: .userInitiated).async {
-            let shelters = ShelterDataLoader.loadSheltersFromJSON()
+            // データをバッチに分けて処理する
+            let allShelters = ShelterDataLoader.loadSheltersFromJSON()
+            
+            // メインスレッドでデータモデルを更新
             DispatchQueue.main.async {
-                self.allShelters = shelters
-                self.hierarchicalClusteringManager.setShelters(shelters)
+                // まず、少数のサンプルデータだけを設定して初期表示
+                let initialBatchSize = min(1000, allShelters.count)
+                let initialBatch = Array(allShelters.prefix(initialBatchSize))
+                
+                self.hierarchicalClusteringManager.setShelters(initialBatch)
                 self.updateInitialAnnotations()
+                
+                // 残りのデータは別のタスクでバックグラウンド処理
+                DispatchQueue.global(qos: .utility).async {
+                    // 残りのデータを処理
+                    let remainingShelters = Array(allShelters.suffix(from: initialBatchSize))
+                    
+                    // バッチ処理（5000件ずつ）
+                    let batchSize = 5000
+                    for i in stride(from: 0, to: remainingShelters.count, by: batchSize) {
+                        let end = min(i + batchSize, remainingShelters.count)
+                        let batch = Array(remainingShelters[i..<end])
+                        
+                        DispatchQueue.main.async {
+                            // 現在のデータに追加
+                            let currentShelters = self.hierarchicalClusteringManager.getShelters()
+                            self.hierarchicalClusteringManager.setShelters(currentShelters + batch)
+                            
+                            // すべてのバッチが完了したらローディング表示を終了
+                            if end == remainingShelters.count {
+                                self.isInitialLoad = false
+                                self.allShelters = allShelters
+                                
+                                // 現在の表示領域のアノテーションを更新
+                                if let region = self.cameraPosition {
+                                    self.updateAnnotations(for: region)
+                                }
+                            }
+                        }
+                        
+                        // バッチ間で少し待機してUIスレッドをブロックしないようにする
+                        Thread.sleep(forTimeInterval: 0.1)
+                    }
+                    
+                    // データが少ない場合はここでローディングを終了
+                    if remainingShelters.isEmpty {
+                        DispatchQueue.main.async {
+                            self.isInitialLoad = false
+                            self.allShelters = allShelters
+                        }
+                    }
+                }
             }
         }
     }
@@ -102,19 +176,56 @@ struct MapView: View {
                 center: CLLocationCoordinate2D(latitude: 36.2048, longitude: 138.2529),
                 span: MKCoordinateSpan(latitudeDelta: 20.0, longitudeDelta: 20.0)
             )
+            self.cameraPosition = japanRegion
             updateAnnotations(for: japanRegion)
+        }
+        
+        // 初期ロードが終わったら非表示にする
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            self.isInitialLoad = false
         }
     }
     
     private func updateAnnotations(for region: MKCoordinateRegion) {
+        // 拡大レベルに応じて表示するアノテーションを決定
         let level = ClusteringLevel.forZoomLevel(currentZoomLevel)
         
+        // 表示領域が広すぎる場合はメッセージを表示
+        if level == .country || level == .prefecture {
+            DispatchQueue.main.async {
+                self.showZoomMessage = true
+                self.annotations = []
+            }
+            return
+        }
+        
+        // バックグラウンドでアノテーションを準備
         DispatchQueue.global(qos: .userInitiated).async {
-            let newAnnotations = self.hierarchicalClusteringManager.getAnnotations(for: level, in: region)
+            // アノテーションの最大数を制限（パフォーマンス改善のため）
+            let maxAnnotations = 300
             
+            // 階層に応じたアノテーションを取得
+            var newAnnotations = self.hierarchicalClusteringManager.getAnnotations(for: level, in: region)
+            
+            // 数が多すぎる場合は制限
+            if newAnnotations.count > maxAnnotations {
+                // より高い階層のアノテーションに切り替え
+                if level == .individual {
+                    newAnnotations = self.hierarchicalClusteringManager.getAnnotations(for: .municipality, in: region)
+                } else if level == .municipality {
+                    newAnnotations = self.hierarchicalClusteringManager.getAnnotations(for: .prefecture, in: region)
+                }
+                
+                // それでも多すぎる場合は制限
+                if newAnnotations.count > maxAnnotations {
+                    newAnnotations = Array(newAnnotations.prefix(maxAnnotations))
+                }
+            }
+            
+            // UIの更新はメインスレッドで行う
             DispatchQueue.main.async {
                 self.annotations = newAnnotations
-                self.showZoomMessage = level != .individual && !newAnnotations.isEmpty
+                self.showZoomMessage = (level != .individual && !newAnnotations.isEmpty) || newAnnotations.count >= maxAnnotations
             }
         }
     }

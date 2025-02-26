@@ -21,6 +21,11 @@ class HierarchicalClusteringManager {
         organizeByHierarchy()
     }
     
+    // 現在のデータを取得
+    func getShelters() -> [Shelter] {
+        return allShelters
+    }
+    
     // 階層ごとにデータをグループ化
     private func organizeByHierarchy() {
         sheltersByPrefecture = [:]
@@ -104,11 +109,10 @@ class HierarchicalClusteringManager {
     private func createMunicipalityAnnotations(in region: MKCoordinateRegion) -> [MKAnnotation] {
         let annotations = sheltersByMunicipality.map { key, shelters in
             let components = key.split(separator: "_")
-            let prefecture = String(components[0])
             let municipality = components.count > 1 ? String(components[1]) : ""
             
             return HierarchicalAnnotation(
-                title: "\(prefecture) \(municipality)", // prefectureを使用
+                title: municipality,
                 subtitle: "\(shelters.count)箇所の避難所",
                 level: .municipality,
                 identifier: key,
@@ -121,12 +125,18 @@ class HierarchicalClusteringManager {
     
     // 個別避難所のアノテーション
     private func createIndividualAnnotations(in region: MKCoordinateRegion) -> [MKAnnotation] {
+        // 表示範囲内の避難所をフィルタリング
         let individualShelters = allShelters.filter { shelter in
             let coordinate = CLLocationCoordinate2D(latitude: shelter.latitude, longitude: shelter.longitude)
             return region.contains(coordinate: coordinate)
         }
         
-        return individualShelters.map { shelter in
+        // 最大数を制限（パフォーマンス対策）
+        let maxAnnotations = 300
+        let limitedShelters = individualShelters.count > maxAnnotations ?
+            Array(individualShelters.prefix(maxAnnotations)) : individualShelters
+        
+        return limitedShelters.map { shelter in
             return ShelterAnnotation(shelter: shelter)
         }
     }

@@ -28,7 +28,7 @@ struct HomeContentView: View {
             headerSection
             
             // スクロール可能なコンテンツ
-            ScrollView {
+            ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading, spacing: 16) {
                     // 各セクション
                     sectionContainer {
@@ -64,6 +64,7 @@ struct HomeContentView: View {
                 .padding(.horizontal, 16)
                 .padding(.top, 12)
             }
+            .id("HomeContentScrollView") // スクロールビューの特定用ID
         }
         .sheet(isPresented: $showingShareSheet) {
             shareSheet()
@@ -135,8 +136,8 @@ struct HomeContentView: View {
             }
         }
         .padding(.horizontal, 16)
-        .padding(.top, 16)
-        .padding(.bottom, 8)
+        .padding(.top, 24) // より広いスペースを確保
+        .padding(.bottom, 16) // 下側にもスペースを追加
         .background(colorScheme == .dark ? Color(UIColor.systemBackground) : .white)
     }
     
@@ -259,13 +260,13 @@ struct HomeContentView: View {
                 
                 Spacer()
                 
-                // See All / See Less ボタン
+                // もっと見る / 閉じる ボタン
                 Button(action: {
                     withAnimation {
                         showAllFacilities.toggle()
                     }
                 }) {
-                    Text(showAllFacilities ? "See Less" : "See All")
+                    Text(showAllFacilities ? "閉じる" : "もっと見る")
                         .font(.caption)
                         .foregroundColor(.blue)
                 }
