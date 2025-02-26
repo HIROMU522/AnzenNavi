@@ -20,7 +20,9 @@ struct ShelterDataLoader {
             let sheltersData = try decoder.decode([String: [Shelter]].self, from: data)
             if let shelters = sheltersData["shelters"] {
                 print("読み込んだ避難所の数: \(shelters.count)")
-                return shelters
+                
+                // デモ用に避難所データを拡張
+                return ShelterDataEnhancer.enhanceShelterData(shelters)
             } else {
                 print("JSON データのパースに失敗しました")
                 return []
@@ -31,4 +33,3 @@ struct ShelterDataLoader {
         }
     }
 }
-

@@ -18,7 +18,7 @@ struct MapView: View {
     @State private var currentZoomLevel: Double = 0.0
     @State private var hierarchicalClusteringManager = HierarchicalClusteringManager()
     
-    @Environment(\.colorScheme) private var scheme
+    @Environment(\.colorScheme) private var colorScheme
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
@@ -48,7 +48,8 @@ struct MapView: View {
             },
             onClusterTapped: { annotation in
                 handleClusterTap(annotation)
-            }
+            },
+            clearSelectionOnTap: true  // マップのタップで選択を解除するフラグ
         )
         .edgesIgnoringSafeArea(.all)
     }
